@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+    <script src="/js/script.js"></script>
+    <link rel="stylesheet" href="/css/homePage.css">
+</head>
+<body>
+<div class="pre_header">
+    <a href="/request" class="pre" sec:authorize="hasRole('ROLE_MANAGER')">Управляющий</a>
+    <a href="/admin" class="pre" sec:authorize="hasRole('ROLE_ADMIN')">Админ панель</a>
+</div>
+
+<div class="header">
+    <a href="/">Главная страница</a>
+    <a href="/">О нас</a>
+    <a href="/"><img src="/pictures/logo.png" class="logo"></a>
+    <a href="/notification">Уведомления</a>
+    <a href="/logout">Выйти</a>
+</div>
+
+<div class="access" th:each="access: ${accessProject}">
+    <p th:text="${access}"></p>
+</div>
+
+<div class="main">
+        <table class="project">
+            <div th:each ="fp : ${findProject}">
+                <th th:text="${fp.name}"></th>
+            </div>
+        </table>
+
+        <table class="centerTable" >
+            <div th:each ="od : ${findByProject}">
+                <tr>
+                    <td class="tasks" th:text="${od.name}"></td>
+                    <td class="tasks" th:text="${od.description}"></td>
+                    <td class="tasks" th:text="${od.status}"></td>
+                </tr>
+            </div>
+        </table>
+
+
+    <div class="allForm">
+<form th:action="@{/}" method="POST" modelAttribute="projectForm" th:hidden="${hidden}">
+    <div class="con">
+        <header class="head-form">
+            <h2>Создание проекта</h2>
+        </header>
+        <br>
+        <div class="field-set">
+            <input type="text" name="name" class="form-input" placeholder="Название" autofocus="true">
+            <br>
+            <input type="text" name="creationData"  class="form-input" placeholder="Дата создания" autofocus="true">
+            <br>
+            <input type="text" name="expirationData"  class="form-input" placeholder="Дата окончания" autofocus="true">
+            <br>
+            <input type="text" name="budget" class="form-input" placeholder="Бюджет" autofocus="true">
+            <br>
+            <form action="/" method="post">
+                <input type="hidden" name="action" th:value="project"/>
+                <button type="submit" class="acceptReq">Создать</button>
+            </form>
+        </div>
+    </div>
+</form>
+
+<form th:action="@{/}" method="POST" modelAttribute="tasksForm" th:hidden="${hidden1}">
+    <div class="con">
+        <header class="head-form">
+            <h2>Создание заданий</h2>
+        </header>
+        <br>
+        <div class="field-set">
+            <input type="text" name="name" class="form-input" placeholder="Название" autofocus="true">
+            <br>
+            <input type="text" name="description" class="form-input" placeholder="Описание" autofocus="true">
+            <br>
+            <form action="/" method="post">
+                <input type="hidden" name="action" th:value="tasks"/>
+                <button type="submit" class="acceptReq">Добавить</button>
+            </form>
+        </div>
+    </div>
+</form>
+</div>
+</div>
+
+</body>
+</html>

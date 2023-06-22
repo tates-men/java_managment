@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration</title>
+  <script src="/js/script.js"></script>
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+<div class="main">
+<form th:action="@{/registration}" method="POST" modelAttribute="userForm" class="registration">
+  <div class="con">
+    <header class="head-form">
+      <h2>Регистрация</h2>
+    </header>
+    <br>
+    <div class="field-set">
+      <input type="text" name="first_name" class="form-input" placeholder="Имя" autofocus="true">
+      <br>
+      <input type="text" name="last_name"  class="form-input" placeholder="Фамилия" autofocus="true">
+      <br>
+      <input type="text" name="email"  class="form-input" placeholder="Email" autofocus="true">
+      <br>
+      <input type="text" class="form-input" name="number" placeholder="Номер телефона">
+      <br>
+      <input class="form-input" type="text" name="username" placeholder="Никнейм" required>
+      <br>
+      <input class="form-input" type="password" placeholder="Пароль" id="pwd"  name="password" required>
+      <br>
+      <input type="password" class="form-input" name="passwordConfirm" placeholder="Подтверждение пароля">
+      <br>
+      <button class="sign-in" type="submit">Зарегистрироваться</button><br>
+      <a href="/login"><button class="btn submits sign-up" type="button">Войти</button></a><br>
+    </div>
+  </div>
+</form>
+<div class="error" th:each="userError: ${usernameError}">
+  <p th:text="${userError}"></p>
+</div>
+<div class="error" th:each="passError: ${passwordError}">
+  <strong th:text="${passError}"></strong>
+</div>
+</div>
+</body>
+</html>

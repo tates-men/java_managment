@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+  <link rel="stylesheet" href="/css/homePage.css">
+</head>
+<body>
+
+<div class="pre_header">
+  <a href="/request" class="pre" sec:authorize="hasRole('ROLE_MANAGER')">Управляющий</a>
+  <a href="/admin" class="pre" sec:authorize="hasRole('ROLE_ADMIN')">Админ панель</a>
+</div>
+
+<div class="header">
+  <a href="/">Главная страница</a>
+  <a href="/">О нас</a>
+  <a href="/"><img src="/pictures/logo.png" class="logo"></a>
+  <a href="/notification">Уведомления</a>
+  <a href="/logout">Выйти</a>
+</div>
+
+<div class="main1">
+<h2>All Users</h2>
+
+<table class="admin">
+  <thead>
+  <th>ID</th>
+  <th>First Name</th>
+  <th>Last Name</th>
+  <th>Email</th>
+  <th>Username</th>
+  <th>Password</th>
+  <th>Roles</th>
+  <th>Delete User</th>
+  <th colspan="2">Operator actions</th>
+  </thead>
+
+  <div th:each ="el : ${allUsers}">
+    <tr>
+      <td class="border" th:text="${el.id}"></td>
+      <td class="border" th:text="${el.first_name}"></td>
+      <td class="border" th:text="${el.last_name}"></td>
+      <td class="border" th:text="${el.email}"></td>
+      <td class="border" th:text="${el.username}"></td>
+      <td class="border" th:text="${el.password}"></td>
+      <td class="border">
+        <div th:each="role : ${el.roles}"><span th:text="${role.name}"></span></div>
+      </td>
+      <td class="border">
+        <form action="/admin" method="post">
+          <input type="hidden" name="userId" th:value="${el.id}"/>
+          <input type="hidden" name="action" th:value="delete"/>
+          <button type="submit" class="accept">Delete</button>
+        </form>
+      </td>
+      <td class="border">
+        <form action="/admin" method="post">
+          <input type="hidden" name="userId" th:value="${el.id}"/>
+          <input type="hidden" name="action" th:value="give_manager"/>
+          <button type="submit" class="accept">Give Manager</button>
+        </form>
+      </td>
+      <td class="border">
+        <form action="/admin" method="post">
+          <input type="hidden" name="userId" th:value="${el.id}"/>
+          <input type="hidden" name="action" th:value="delete_role"/>
+          <button type="submit" class="accept">Del Manager</button>
+        </form>
+      </td>
+    </tr>
+  </div>
+</table>
+</div>
+</body>
+</html>

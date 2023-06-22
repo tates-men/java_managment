@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Заявки</title>
+    <link rel="stylesheet" href="/css/homePage.css">
+</head>
+<body>
+<div class="pre_header">
+    <a href="/request" class="pre" sec:authorize="hasRole('ROLE_MANAGER')">Управляющий</a>
+    <a href="/admin" class="pre" sec:authorize="hasRole('ROLE_ADMIN')">Админ панель</a>
+</div>
+
+<div class="header">
+    <a href="/">Главная страница</a>
+    <a href="/">О нас</a>
+    <a href="/"><img src="/pictures/logo.png" class="logo"></a>
+    <a href="/notification">Уведомления</a>
+    <a href="/logout">Выйти</a>
+</div>
+<div class="main">
+    <h1>Все проекты</h1>
+    <table class="center">
+        <thead>
+        <th>Номер заявки №</th>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Статус</th>
+        <th colspan="2">Действия</th>
+        </thead>
+        <div th:each ="od : ${allProject}">
+            <tr>
+                <td th:text="${od.id}"></td>
+                <td th:text="${od.name}"></td>
+                <td th:text="${od.budget}"></td>
+                <td th:text="${od.status}"></td>
+                <td>
+                    <form action="/request" method="post">
+                        <input type="hidden" name="action" th:value="output"/>
+                        <input type="hidden" name="projectId" th:value="${od.id}"/>
+                        <button type="submit" class="accept">Вывести</button>
+                    </form>
+                </td>
+
+                <td>
+                    <form action="/request" method="post">
+                        <input type="hidden" name="action" th:value="deleteProject"/>
+                        <input type="hidden" name="projectId" th:value="${od.id}"/>
+                        <button type="submit" class="accept">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        </div>
+    </table>
+
+<table class="centerTasks">
+    <div th:each ="at : ${allTasks}">
+        <tr>
+            <td th:text="${at.name}"></td>
+            <td th:text="${at.description}"></td>
+            <td th:text="${at.status}"></td>
+            <td>
+                <form action="/request" method="post">
+                    <input type="hidden" name="taskId" th:value="${at.id}"/>
+                    <input type="hidden" name="action" th:value="delete"/>
+                    <button type="submit" class="accept">Удалить</button>
+                </form>
+            </td>
+            <td>
+                <form action="/request" method="post">
+                    <input type="hidden" name="taskId" th:value="${at.id}"/>
+                    <input type="hidden" name="action" th:value="inWork"/>
+                    <button type="submit" class="accept">В работу</button>
+                </form>
+            </td>
+            <td>
+                <form action="/request" method="post">
+                    <input type="hidden" name="taskId" th:value="${at.id}"/>
+                    <input type="hidden" name="action" th:value="end"/>
+                    <button type="submit" class="accept">Завершить</button>
+                </form>
+            </td>
+        </tr>
+    </div>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Уведомления</title>
+    <link rel="stylesheet" href="/css/homePage.css">
+</head>
+<body>
+    <div class="header">
+        <a href="/">Главная страница</a>
+        <a href="/">О нас</a>
+        <a href="/"><img src="/pictures/logo.png" class="logo"></a>
+        <a href="/notification">Уведомления</a>
+        <a href="/logout">Выйти</a>
+    </div>
+    <div class="notification">
+        <div class="projectFind" th:each="pf : ${projectFind}">
+            <p>Ваш проект -</p>
+            <p th:text="${pf.name}"></p>
+            <p>завершен.<br>К оплате -</p>
+            <p th:text="${pf.budget}"></p>
+            <p>/руб</p>
+        </div>
+        <div class="notFound" th:each="nt: ${notFound}">
+            <p th:text="${nt}"></p>
+        </div>
+    </div>
+</body>
+</html>
